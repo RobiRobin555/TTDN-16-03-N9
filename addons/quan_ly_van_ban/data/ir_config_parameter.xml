@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="config_param_pdf_api_url" model="ir.config_parameter">
+            <field name="key">pdf.api.url</field>
+            <field name="value">http://odoo_pdf_signer:8000</field>
+        </record>
+    </data>
+</odoo>

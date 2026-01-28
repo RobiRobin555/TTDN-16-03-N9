@@ -1,0 +1,10 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+qlvb_document_user,qlvb.document,model_qlvb_document,base.group_user,1,1,1,0
+qlvb_document_manager,qlvb.document,model_qlvb_document,hr.group_hr_manager,1,1,1,1
+qlvb_document_admin,qlvb.document,model_qlvb_document,base.group_system,1,1,1,1
+qlvb_document_history_user,qlvb.document.history,model_qlvb_document_history,base.group_user,1,0,0,0
+qlvb_document_history_manager,qlvb.document.history,model_qlvb_document_history,hr.group_hr_manager,1,1,1,1
+qlvb_document_history_admin,qlvb.document.history,model_qlvb_document_history,base.group_system,1,1,1,1
+access_qlvb_sign_confirm_wizard,qlvb.sign.confirm.wizard,model_qlvb_sign_confirm_wizard,base.group_user,1,1,1,1
+access_qlvb_verify_wizard,qlvb.verify.wizard,model_qlvb_verify_wizard,base.group_user,1,1,1,1
+access_qlvb_verify_signature_line,qlvb.verify.signature.line,model_qlvb_verify_signature_line,base.group_user,1,1,1,1

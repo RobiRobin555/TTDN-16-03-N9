@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <menuitem id="nhan_su_menu_root" name="Nhân sự" sequence="10"/>
+        <menuitem id="nhan_vien_menu" name="Nhân viên" parent="nhan_su_menu_root" action="action_nhan_vien" sequence="10"/>
+        <menuitem id="phong_ban_menu" name="Phòng ban" parent="nhan_su_menu_root" action="action_phong_ban" sequence="20"/>
+        <menuitem id="cham_cong_menu" name="Chấm công" parent="nhan_su_menu_root" action="action_cham_cong" sequence="30"/>
+        <menuitem id="chung_chi_menu" name="Chứng chỉ" parent="nhan_su_menu_root" action="action_chung_chi" sequence="40"/>
+        <menuitem id="lich_su_cong_tac_menu" name="Lịch sử công tác" parent="nhan_su_menu_root" action="action_lich_su_cong_tac" sequence="50"/>
+    </data>
+</odoo>

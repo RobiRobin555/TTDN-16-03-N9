@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="action_quan_ly_khach_hang_partner" model="ir.actions.act_window">
+        <field name="name">Khách hàng</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{}</field> 
+        <field name="domain">[]</field>
+    </record>
+
+    <menuitem id="menu_quan_ly_khach_hang_root" name="Quản lý Khách hàng" sequence="10"/>
+    <menuitem id="menu_quan_ly_khach_hang_partner" name="Khách hàng" parent="menu_quan_ly_khach_hang_root" action="action_quan_ly_khach_hang_partner" sequence="10"/>
+
+    <record id="view_res_partner_tree_qlkh" model="ir.ui.view">
+        <field name="name">res.partner.tree.qlkh</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//tree" position="attributes">
+                <attribute name="create">true</attribute>
+            </xpath>
+            <tree position="inside">
+                <field name="customer_code"/>
+                <field name="customer_type"/>
+                <field name="customer_status"/>
+                <field name="responsible_employee_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_res_partner_form_qlkh" model="ir.ui.view">
+        <field name="name">res.partner.form.qlkh</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet/notebook" position="inside">
+                <page string="Nhân viên phụ trách">
+                    <group>
+                        <field name="responsible_employee_id"/>
+                        <field name="participant_employee_ids" widget="many2many_tags"/>
+                    </group>
+                </page>
+                <page string="Lịch sử làm việc">
+                    <group>
+                        <field name="work_history_ids" mode="tree,form">
+                            <tree string="Lịch sử">
+                                <field name="date"/>
+                                <field name="user_id"/>
+                                <field name="note"/>
+                            </tree>
+                            <form string="Lịch sử">
+                                <group>
+                                    <field name="date"/>
+                                    <field name="user_id"/>
+                                    <field name="note"/>
+                                </group>
+                            </form>
+                        </field>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_res_partner_search_qlkh" model="ir.ui.view">
+        <field name="name">res.partner.search.qlkh</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_res_partner_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//search" position="inside">
+                <filter name="status_potential" string="Tiềm năng" domain="[('customer_status','=','potential')]"/>
+                <filter name="status_active" string="Đang giao dịch" domain="[('customer_status','=','active')]"/>
+                <filter name="status_inactive" string="Ngừng hợp tác" domain="[('customer_status','=','inactive')]"/>
+                <filter name="responsible_me" string="Tôi phụ trách" domain="[('responsible_employee_id.user_id','=',uid)]"/>
+                
+                <group expand="0" string="Nhân viên">
+                    <filter name="responsible_employee" string="Nhân viên phụ trách" context="{'group_by':'responsible_employee_id'}"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

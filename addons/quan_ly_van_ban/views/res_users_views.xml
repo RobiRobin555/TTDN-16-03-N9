@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_users_form_signing_config" model="ir.ui.view">
+        <field name="name">res.users.form.signing.config</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Chữ ký số (Digital Signature)">
+                    <group>
+                        <group string="Cấu hình thông tin">
+                            <field name="cert_organization"/>
+                            <field name="cert_job_title"/>
+                            <field name="signing_signature" widget="image" class="oe_avatar"/>
+                        </group>
+                        <group string="Khóa bảo mật">
+                             <div class="alert alert-info" role="alert" colspan="2">
+                                <strong>Lưu ý:</strong> Bấm nút dưới đây để hệ thống tự sinh cặp khóa (Private/Public Key) và đóng gói vào file P12.
+                            </div>
+                            <button name="action_generate_digital_key" 
+                                    string="🔄 Tạo khóa mới (Reset)" 
+                                    type="object" 
+                                    class="btn-primary mb-3"
+                                    confirm="Hành động này sẽ tạo khóa mới và ghi đè khóa cũ. Bạn có chắc chắn?"/>
+                            
+                            <field name="signing_cert_file" filename="signing_cert_filename" readonly="1"/>
+                            <field name="signing_cert_filename" invisible="1"/>
+                            <field name="signing_cert_password" password="True" readonly="1"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_qlvb_verify_wizard_form" model="ir.ui.view">
+            <field name="name">qlvb.verify.wizard.form</field>
+            <field name="model">qlvb.verify.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Công cụ Xác thực Văn bản">
+                    <sheet>
+                        <field name="check_performed" invisible="1"/>
+                        <field name="has_data" invisible="1"/>
+                        <field name="show_result" invisible="1"/>
+
+                        <div class="text-center mb-3" style="background-color: #f8f9fa; padding: 15px; border-radius: 5px;">
+                            <h2 style="color: #2c3e50; margin: 0;">
+                                <i class="fa fa-shield text-primary"/> Cổng Xác Thực Chữ Ký Số
+                            </h2>
+                            <div attrs="{'invisible': [('check_performed', '=', True)]}">
+                                <small class="text-muted">
+                                    <i class="fa fa-info-circle"/> Hệ thống đã tìm thấy Public Key và Người ký. 
+                                    Vui lòng bấm <b>"Kiểm tra"</b> để xác thực tính toàn vẹn.
+                                </small>
+                            </div>
+                            <div attrs="{'invisible': [('check_performed', '=', False)]}">
+                                <small class="text-success font-weight-bold">
+                                    <i class="fa fa-check"/> Đã hoàn tất kiểm tra kỹ thuật.
+                                </small>
+                            </div>
+                        </div>
+
+                        <group>
+                            <group>
+                                <field name="file" filename="file_name" widget="binary" height="50" string="Chọn File PDF" required="1"/>
+                                <field name="file_name" invisible="1"/>
+                            </group>
+                            <group>
+                                 <button name="action_verify" string="🔒 BẮT ĐẦU KIỂM TRA" type="object" 
+                                        class="btn-primary" icon="fa-lock"
+                                        attrs="{'invisible': ['|', ('file', '=', False), ('check_performed', '=', True)]}"/>
+                                 
+                                 <button name="action_verify" string="Kiểm tra lại" type="object" 
+                                        class="btn-secondary" icon="fa-refresh"
+                                        attrs="{'invisible': [('check_performed', '=', False)]}"/>
+                            </group>
+                        </group>
+
+                        <div attrs="{'invisible': [('has_data', '=', False)]}">
+                            
+                            <div class="row mt-2 mb-2" attrs="{'invisible': [('check_performed', '=', False)]}">
+                                <div class="col-12 text-center">
+                                    <field name="verification_status" widget="badge"
+                                           decoration-success="verification_status == 'VALID'"
+                                           decoration-danger="verification_status in ('TAMPERED', 'INVALID', 'ERROR')"
+                                           decoration-warning="verification_status == 'UNSIGNED'"
+                                           style="font-size: 18px; padding: 10px 30px; border-radius: 20px;"/>
+                                </div>
+                            </div>
+
+                            <notebook>
+                                <page string="Danh sách Người ký">
+                                    <field name="signature_ids" readonly="1" force_save="1">
+                                        <tree decoration-danger="is_intact == False and wizard_checked == True" 
+                                              decoration-success="is_intact == True and wizard_checked == True">
+                                            
+                                            <field name="wizard_checked" invisible="1"/>
+
+                                            <field name="owner_avatar" widget="image" height="30" string="Avatar"/>
+                                            <field name="owner_info" decoration-bf="1" string="User HT"/>
+                                            <field name="signer_name" string="Tên trong PDF"/>
+                                            <field name="organization" optional="hide"/>
+
+                                            <button name="get_formview_action" string="Xem Public Key" type="object" icon="fa-key"/>
+
+                                            <field name="is_intact" widget="boolean_toggle" 
+                                                   attrs="{'column_invisible': [('parent.check_performed', '=', False)]}"/>
+                                            <field name="is_valid" widget="boolean_toggle" 
+                                                   attrs="{'column_invisible': [('parent.check_performed', '=', False)]}"/>
+                                            <field name="signing_time" 
+                                                   attrs="{'column_invisible': [('parent.check_performed', '=', False)]}"/>
+                                        </tree>
+                                        
+                                        <form>
+                                            <sheet>
+                                                <div class="oe_title">
+                                                    <field name="owner_avatar" widget="image" class="oe_avatar"/>
+                                                    <h1><field name="signer_name"/></h1>
+                                                    <h3><field name="organization"/></h3>
+                                                </div>
+                                                <notebook>
+                                                    <page string="🔑 Public Key">
+                                                        <div class="alert alert-info">
+                                                            Mã khóa công khai trích xuất từ file PDF:
+                                                        </div>
+                                                        <field name="public_key_pem" widget="text"
+                                                               style="font-family: monospace; font-size: 11px; white-space: pre-wrap; word-break: break-all; background: #f0f0f0; padding: 15px; border: 1px solid #ccc;" 
+                                                               readonly="1"/>
+                                                    </page>
+                                                    
+                                                    <page string="🛡️ Kết quả Kỹ thuật" attrs="{'invisible': [('parent.check_performed', '=', False)]}">
+                                                        <group>
+                                                            <group string="Trạng thái">
+                                                                <field name="is_intact" widget="boolean_toggle"/>
+                                                                <field name="is_valid" widget="boolean_toggle"/>
+                                                            </group>
+                                                            <group string="Chứng thư">
+                                                                <field name="serial_number"/>
+                                                                <field name="issuer"/>
+                                                                <field name="signing_time"/>
+                                                            </group>
+                                                        </group>
+                                                        <field name="validation_summary"/>
+                                                    </page>
+                                                </notebook>
+                                            </sheet>
+                                        </form>
+                                    </field>
+                                </page>
+                            </notebook>
+                        </div>
+                    </sheet>
+                    <footer>
+                        <button string="Đóng" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+        <record id="action_qlvb_verify_tool" model="ir.actions.act_window">
+            <field name="name">Xác thực Văn bản</field>
+            <field name="res_model">qlvb.verify.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="context">{'default_show_result': False}</field>
+        </record>
+
+        <menuitem id="menu_qlvb_verify_tool" 
+                  name="Xác thực (Verify)" 
+                  parent="menu_qlvb_root" 
+                  action="action_qlvb_verify_tool" 
+                  sequence="99"/>
+    </data>
+</odoo>

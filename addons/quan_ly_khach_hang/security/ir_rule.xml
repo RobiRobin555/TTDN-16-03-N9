@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="rule_res_partner_employee_visibility" model="ir.rule">
+        <field name="name">Khách hàng theo nhân viên</field>
+        <field name="model_id" ref="base.model_res_partner"/>
+        <field name="domain_force">['|',('responsible_employee_id.user_id','=',user.id),('participant_employee_ids.user_id','=',user.id)]</field>
+        <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+    </record>
+    <record id="rule_res_partner_manager_visibility" model="ir.rule">
+        <field name="name">Khách hàng toàn quyền cho Trưởng phòng</field>
+        <field name="model_id" ref="base.model_res_partner"/>
+        <field name="domain_force">[(1,'=',1)]</field>
+        <field name="groups" eval="[(4, ref('hr.group_hr_manager'))]"/>
+    </record>
+</odoo>

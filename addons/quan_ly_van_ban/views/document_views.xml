@@ -1,0 +1,148 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="action_qlvb_document" model="ir.actions.act_window">
+        <field name="name">Văn bản</field>
+        <field name="res_model">qlvb.document</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_qlvb_root" name="Quản lý Văn bản" sequence="20"/>
+    <menuitem id="menu_qlvb_document" name="Văn bản" parent="menu_qlvb_root" action="action_qlvb_document" sequence="10"/>
+
+    <record id="view_qlvb_document_tree" model="ir.ui.view">
+        <field name="name">qlvb.document.tree</field>
+        <field name="model">qlvb.document</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="document_type"/>
+                <field name="partner_id"/>
+                <field name="employee_id"/>
+                <field name="upload_date"/>
+                <field name="expiry_date"/>
+                <field name="state" widget="badge" decoration-info="state == 'draft'" decoration-warning="state == 'submitted'" decoration-success="state == 'approved'"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_qlvb_document_form" model="ir.ui.view">
+        <field name="name">qlvb.document.form</field>
+        <field name="model">qlvb.document</field>
+        <field name="arch" type="xml">
+            <form string="Văn bản">
+                <header>
+                    <button name="action_sign_via_api" type="object" string="Ký số (API)" 
+                            class="oe_highlight btn-success"
+                            states="submitted,approved"
+                            confirm="Bạn có chắc chắn muốn ký số văn bản này không?"/>
+
+                    <button name="action_submit" type="object" string="Trình duyệt" states="draft" class="oe_highlight"/>
+                    <button name="action_approve" type="object" string="Duyệt" states="submitted" class="oe_highlight"/>
+                    <button name="action_archive" type="object" string="Lưu trữ" states="approved,submitted"/>
+                    <button name="action_reset_to_draft" type="object" string="Đặt Nháp" states="submitted,approved,archived"/>
+                    
+                    <field name="state" widget="statusbar" statusbar_visible="draft,submitted,approved,archived"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="Số hiệu/Tên văn bản..."/></h1>
+                    </div>
+                    
+                    <group>
+                        <group>
+                            <field name="document_type"/>
+                            <field name="partner_id"/>
+                            <field name="employee_id"/>
+                        </group>
+                        <group>
+                            <field name="version"/>
+                            <field name="upload_date"/>
+                            <field name="expiry_date"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="👁️ Xem Tài liệu (Preview)">
+                            <div class="text-center" style="background-color: #f0f2f5; padding: 10px; border-bottom: 1px solid #ccc;">
+                                <field name="preview_type" widget="radio" options="{'horizontal': true}"/>
+                            </div>
+                            
+                            <field name="pdf_preview" widget="html" nolabel="1"/>
+                        </page>
+
+                        <page string="✍️ Cấu hình Ký số">
+                            <group>
+                                <group string="1. File &amp; Ảnh chữ ký">
+                                    <field name="file" filename="name"/>
+                                    
+                                    <field name="custom_sign_image" widget="image" class="oe_avatar" options="{'size': [150, 60]}"/>
+                                    <div class="text-muted">
+                                        <i class="fa fa-info-circle"/> <i>Upload ảnh mới tại đây nếu không muốn dùng chữ ký mặc định.</i>
+                                    </div>
+
+                                    <field name="file_signed" filename="file_signed_name" attrs="{'invisible': [('file_signed', '=', False)]}"/>
+                                    <field name="file_signed_name" invisible="1"/>
+                                </group>
+
+                                <group string="2. Vị trí &amp; Tọa độ">
+                                    <field name="sign_position_preset" widget="radio"/>
+                                    <div class="text-muted mb-3">
+                                        <i class="fa fa-magic"/> <i>Hệ thống tự động căn chỉnh theo kích thước trang PDF.</i>
+                                    </div>
+
+                                    <label for="sign_page" string="Trang ký"/>
+                                    <div><field name="sign_page" class="oe_inline"/></div>
+
+                                    <label for="sign_x" string="Tọa độ (X,Y)"/>
+                                    <div class="o_row">
+                                        <span class="oe_inline font-weight-bold">X: </span><field name="sign_x" class="oe_inline" style="width: 60px; font-weight: bold;"/>
+                                        <span class="pl-2 oe_inline font-weight-bold">Y: </span><field name="sign_y" class="oe_inline" style="width: 60px; font-weight: bold;"/>
+                                    </div>
+                                    
+                                    <div attrs="{'invisible': [('sign_position_preset', '!=', 'custom')]}" class="alert alert-info mt-2" role="alert" style="padding: 5px 10px; font-size: 0.9em;">
+                                        Gốc tọa độ (0,0) nằm ở <b>Góc dưới cùng bên trái</b> của trang giấy.
+                                    </div>
+                                </group>
+                            </group>
+                        </page>
+
+                        <page string="🕒 Lịch sử xử lý">
+                            <field name="history_ids" mode="tree">
+                                <tree editable="bottom">
+                                    <field name="date"/>
+                                    <field name="user_id"/>
+                                    <field name="from_state"/>
+                                    <field name="to_state"/>
+                                    <field name="note"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_qlvb_document_search" model="ir.ui.view">
+        <field name="name">qlvb.document.search</field>
+        <field name="model">qlvb.document</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="partner_id"/>
+                <filter name="state_draft" string="Nháp" domain="[('state','=','draft')]"/>
+                <filter name="state_submitted" string="Trình duyệt" domain="[('state','=','submitted')]"/>
+                <group expand="0" string="Nhóm">
+                    <filter name="group_partner" string="Theo khách hàng" context="{'group_by': 'partner_id'}"/>
+                    <filter name="group_state" string="Theo trạng thái" context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+</odoo>

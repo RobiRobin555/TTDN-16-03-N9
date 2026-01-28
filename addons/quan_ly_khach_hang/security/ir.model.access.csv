@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+qlkh_partner_work_history_user,qlkh.partner.work.history,model_qlkh_partner_work_history,base.group_user,1,1,1,0
+qlkh_partner_work_history_manager,qlkh.partner.work.history,model_qlkh_partner_work_history,hr.group_hr_manager,1,1,1,1
+qlkh_partner_work_history_admin,qlkh.partner.work.history,model_qlkh_partner_work_history,base.group_system,1,1,1,1

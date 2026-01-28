@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_lich_su_cong_tac_tree" model="ir.ui.view">
+            <field name="name">lich.su.cong.tac.tree</field>
+            <field name="model">nhan_su.lich_su_cong_tac</field>
+            <field name="arch" type="xml">
+                <tree string="Lịch sử công tác">
+                    <field name="nhan_vien_id" string="Nhân viên"/>
+                    <field name="phong_ban_id" string="Phòng ban"/>
+                    <field name="chuc_danh" string="Chức danh"/>
+                    <field name="tu_ngay" string="Từ ngày"/>
+                    <field name="den_ngay" string="Đến ngày"/>
+                </tree>
+            </field>
+        </record>
+        <record id="view_lich_su_cong_tac_form" model="ir.ui.view">
+            <field name="name">lich.su.cong.tac.form</field>
+            <field name="model">nhan_su.lich_su_cong_tac</field>
+            <field name="arch" type="xml">
+                <form string="Lịch sử công tác">
+                    <sheet>
+                        <group>
+                            <field name="nhan_vien_id" string="Nhân viên"/>
+                            <field name="phong_ban_id" string="Phòng ban"/>
+                            <field name="chuc_danh" string="Chức danh"/>
+                            <field name="tu_ngay" string="Từ ngày"/>
+                            <field name="den_ngay" string="Đến ngày"/>
+                            <field name="mo_ta" string="Mô tả"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="action_lich_su_cong_tac" model="ir.actions.act_window">
+            <field name="name">Lịch sử công tác</field>
+            <field name="res_model">nhan_su.lich_su_cong_tac</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+    </data>
+</odoo>

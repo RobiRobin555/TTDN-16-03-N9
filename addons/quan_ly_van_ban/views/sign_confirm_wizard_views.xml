@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_qlvb_sign_confirm_wizard_form" model="ir.ui.view">
+        <field name="name">qlvb.sign.confirm.wizard.form</field>
+        <field name="model">qlvb.sign.confirm.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Xác nhận lưu File Ký số">
+                <sheet>
+                    <div class="alert alert-warning text-center" role="alert" style="margin-bottom: 5px;">
+                        <strong>⚠️ ĐÂY LÀ BẢN XEM TRƯỚC.</strong><br/>
+                        File này chưa được lưu vào hồ sơ. Vui lòng kiểm tra kỹ chữ ký.
+                    </div>
+                    
+                    <field name="pdf_preview" widget="html" nolabel="1"/>
+                    
+                    <group invisible="1">
+                        <field name="document_id"/>
+                        <field name="file_name"/>
+                        <field name="file_generated"/>
+                    </group>
+                </sheet>
+                <footer>
+                    <button name="action_confirm_save" string="💾 Lưu Trữ Bản Này" type="object" class="btn-primary" confirm="Bạn có chắc chắn muốn lưu bản ký này không?"/>
+                    <button string="❌ Hủy Bỏ" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>
