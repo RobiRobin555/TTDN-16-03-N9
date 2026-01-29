@@ -20,13 +20,15 @@
 </div>
 
 ## 📖 1. Giới thiệu
-Hệ thống quản lý bao gồm 3 Module:
-    - Module Nhân sự: Quản lý hồ sơ và phân quyền nhân viên
-    - Module Khách hàng: Lưu trữ thông tin đối tác, liên kết trực tiếp tới văn bản
-    - Module quản lý Văn bản: 
-        + Upload và quản lý văn bản
-        + Ký số và xác thực chữ ký 
-        + Lưu trữ tài liệu 
+#### Hệ thống quản lý bao gồm 3 Module:
+   ##### - Module Nhân sự: Quản lý hồ sơ và phân quyền nhân viên
+   ##### - Module Khách hàng: Lưu trữ thông tin đối tác, liên kết trực tiếp tới văn bản
+   ##### - Module quản lý Văn bản: Upload và quản lý văn bản, Ký số và xác thực chữ ký, Lưu trữ tài liệu quan trọng
+    
+<div align = "center">
+        <img src="docs/Poster1.png" width = 800/> Pos
+</div>
+
 
 ## 🔧 2. Các công nghệ được sử dụng
 <div align="center">
@@ -39,6 +41,7 @@ Hệ thống quản lý bao gồm 3 Module:
 [![XML](https://img.shields.io/badge/XML-FF6600?style=for-the-badge&logo=codeforces&logoColor=white)](https://www.w3.org/XML/)
 ### Cơ sở dữ liệu
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
+[![Docker](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)](https://www.Docker.org/)
 </div>
 
 ## 🚀 3. Các project đã thực hiện dựa trên Platform

@@ -150,7 +150,6 @@ class QLVBDocument(models.Model):
         except Exception:
             if self.sign_position_preset == 'bottom_right': self.sign_x = 400; self.sign_y = 50
 
-    # --- PREVIEW (GIỮ NGUYÊN NHƯ CŨ) ---
     preview_type = fields.Selection([
         ('original', '📄 Xem Tài liệu Gốc'),
         ('signed', '✍️ Xem File Đã Ký')
@@ -220,10 +219,10 @@ class QLVBDocument(models.Model):
             else:
                 rec.pdf_preview = "<div style='text-align:center; padding:100px; color: #666;'><h3>📂 Vui lòng chọn file (PDF, JPG, PNG)</h3></div>"
 
-    # --- API KÝ SỐ (ĐÃ UPDATE LOGIC LẤY KEY CỦA USER) ---
+    # --- API KÝ SỐ  ---
     def action_sign_via_api(self):
         self.ensure_one()
-        user = self.env.user # Lấy user đang bấm nút
+        user = self.env.user 
         
         # 1. Kiểm tra File
         if not self.file: 
@@ -253,11 +252,11 @@ class QLVBDocument(models.Model):
             files = {
                 'pdf_file': (fname, pdf_bytes, 'application/pdf'),
                 'image_file': ('sign.png', base64.b64decode(signature_to_use), 'image/png'),
-                # [QUAN TRỌNG] Lấy file P12 của chính user này
+               
                 'cert_file': (f"{user.login}_key.p12", base64.b64decode(user.signing_cert_file), 'application/x-pkcs12'),
             }
             
-            # [QUAN TRỌNG] Lấy mật khẩu P12 của chính user này
+           
             data = {
                 'password': user.signing_cert_password or '',
                 'page_number': self.sign_page,
